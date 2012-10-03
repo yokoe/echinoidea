@@ -27,6 +27,4 @@ builder = Echinoidea::Builder.new(current_dir)
 builder.scenes = config['scenes']
 builder.output_directory = "ios"
 
-builder.write_to_file
-builder.run_unity_command
-builder.remove_file
+builder.run

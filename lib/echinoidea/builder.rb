@@ -36,12 +36,18 @@ public class #{@class_name}
 }"
     }
   end
-  def remove_file
+  def remove_files
     File.delete(self.file_path)
     File.delete("#{self.file_path}.meta")
   end
 
   def run_unity_command
     `/Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchmode -executeMethod #{@class_name}.Build -projectPath #{@root_directory}`
+  end
+
+  def run
+    write_to_file
+    run_unity_command
+    remove_files
   end
 end
