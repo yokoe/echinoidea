@@ -7,10 +7,10 @@ Gem::Specification.new do |gem|
   gem.name          = "echinoidea"
   gem.version       = Echinoidea::VERSION
   gem.authors       = ["Sota Yokoe"]
-  gem.email         = ["sota@pankaku.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.email         = ["gem@kreuz45.com"]
+  gem.description   = "A command line unity project build helper"
+  gem.summary       = "A command line unity project build helper"
+  gem.homepage      = "https://github.com/yokoe/echinoidea"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
