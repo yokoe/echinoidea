@@ -1,24 +1,22 @@
 # Echinoidea
 
-TODO: Write a gem description
+A command line unity project build helper.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'echinoidea'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it yourself as:
 
     $ gem install echinoidea
 
 ## Usage
 
-TODO: Write usage instructions here
+Create `echinoidea.yml` in root directory of your unity project.
+
+```
+scenes:
+  - Assets/Scenes/Foo.unity
+bundle_identifier: com.example.foo #optional
+```
 
 ## Contributing
 
