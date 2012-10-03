@@ -2,7 +2,7 @@ require 'echinoidea/version'
 
 class Echinoidea::Builder
   attr_reader :class_name, :file_path
-  attr_accessor :scenes, :output_directory
+  attr_accessor :bundle_identifier, :output_directory, :scenes
 
   def self.unique_builder_class_name
   	"ECBuilder#{Time.now.strftime('%y%m%d%H%M%S')}"
@@ -21,6 +21,12 @@ class Echinoidea::Builder
     # Thanks to: http://ameblo.jp/principia-ca/entry-11010391965.html
     File.open(self.file_path,'w'){|f|
       scenes = @scenes.map{|scene| "\"#{scene}\""}.join(",")
+
+      player_settings_opts = {}
+      player_settings_opts["bundleIdentifier"] = "\"#{@bundle_identifier}\"" if @bundle_identifier
+
+      player_settings_opts_string = player_settings_opts.map{|k,v| "PlayerSettings.#{k} = #{v};"}.join("\n")
+
       f.write "using UnityEngine;
 using UnityEditor;
 using System.Collections;
@@ -29,6 +35,7 @@ public class #{@class_name}
   private static string[] scene = {#{scenes}};
   public static void Build()
   {
+    #{player_settings_opts_string}
     BuildOptions opt = BuildOptions.SymlinkLibraries;
     /*string errorMsg = */BuildPipeline.BuildPlayer(scene, \"#{@output_directory}\", BuildTarget.iPhone,opt);
     EditorApplication.Exit(0);
@@ -42,7 +49,7 @@ public class #{@class_name}
   end
 
   def run_unity_command
-    `/Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchmode -executeMethod #{@class_name}.Build -projectPath #{@root_directory}`
+    `/Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchMode -executeMethod #{@class_name}.Build -projectPath #{@root_directory}`
   end
 
   def run

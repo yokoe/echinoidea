@@ -35,6 +35,7 @@ end
 config = YAML.load_file([current_dir, "echinoidea.yml"].join("/"))
 
 builder = Echinoidea::Builder.new(current_dir)
+builder.bundle_identifier = config['bundle_identifier'] if config['bundle_identifier']
 builder.scenes = config['scenes']
 builder.output_directory = OPTS[:o]
 
