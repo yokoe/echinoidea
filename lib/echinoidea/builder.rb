@@ -18,6 +18,7 @@ class Echinoidea::Builder
   end
 
   def write_to_file
+    # Thanks to: http://ameblo.jp/principia-ca/entry-11010391965.html
     File.open(self.file_path,'w'){|f|
       scenes = @scenes.map{|scene| "\"#{scene}\""}.join(",")
       f.write "using UnityEngine;
