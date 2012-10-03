@@ -2,7 +2,7 @@ require 'echinoidea/version'
 
 class Echinoidea::Builder
   attr_reader :class_name, :file_path
-  attr_accessor :scenes
+  attr_accessor :scenes, :output_directory
 
   def self.unique_builder_class_name
   	"ECBuilder#{Time.now.strftime('%y%m%d%H%M%S')}"
@@ -29,7 +29,7 @@ public class #{@class_name}
   public static void Build()
   {
     BuildOptions opt = BuildOptions.SymlinkLibraries;
-    /*string errorMsg = */BuildPipeline.BuildPlayer(scene, \"xcode\", BuildTarget.iPhone,opt);
+    /*string errorMsg = */BuildPipeline.BuildPlayer(scene, \"#{@output_directory}\", BuildTarget.iPhone,opt);
     EditorApplication.Exit(0);
   }
 }"
@@ -37,5 +37,9 @@ public class #{@class_name}
   end
   def remove_file
     File.delete(self.file_path)
+  end
+
+  def run_unity_command
+    `/Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchmode -executeMethod #{@class_name}.Build -projectPath #{@root_directory}`
   end
 end
