@@ -2,3 +2,10 @@
 # encoding: UTF-8
 
 puts "Echinoidea"
+
+require "echinoidea"
+
+if !Echinoidea::project_root_directory?(Dir::pwd)
+  STDERR.puts "#{Dir::pwd} is not root directory of a unity project."
+  exit
+end

@@ -1,5 +1,7 @@
 require "echinoidea/version"
 
 module Echinoidea
-  # Your code goes here...
+  def self.project_root_directory?(path)
+  	File.exists?([path, "Assets"].join("/"))
+  end
 end
