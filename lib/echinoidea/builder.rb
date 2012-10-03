@@ -1,16 +1,17 @@
 require 'echinoidea/version'
 
 class Echinoidea::Builder
-  attr_reader :class_name, :file_path
-  attr_accessor :bundle_identifier, :output_directory, :scenes
+  attr_reader :class_name, :config, :file_path
+  attr_accessor :output_directory, :scenes
 
   def self.unique_builder_class_name
   	"ECBuilder#{Time.now.strftime('%y%m%d%H%M%S')}"
   end
 
-  def initialize(root_directory)
+  def initialize(root_directory, config)
     @class_name = self.class.unique_builder_class_name
     @root_directory = root_directory
+    @config = config
   end
 
   def file_path
@@ -20,10 +21,21 @@ class Echinoidea::Builder
   def write_to_file
     # Thanks to: http://ameblo.jp/principia-ca/entry-11010391965.html
     File.open(self.file_path,'w'){|f|
-      scenes = @scenes.map{|scene| "\"#{scene}\""}.join(",")
+      scenes = @config['scenes'].map{|scene| "\"#{scene}\""}.join(",")
 
       player_settings_opts = {}
-      player_settings_opts["bundleIdentifier"] = "\"#{@bundle_identifier}\"" if @bundle_identifier
+
+      if @config['bundle_identifier']
+        bundle_identifier = @config['bundle_identifier']
+        player_settings_opts["bundleIdentifier"] = "\"#{bundle_identifier}\""
+      end
+
+      if @config['stripping_level']
+        player_settings_opts["strippingLevel"] = "StrippingLevel.#{@config['stripping_level']}"
+      end
+      if @config['api_compatibility_level']
+        player_settings_opts["apiCompatibilityLevel"] = "ApiCompatibilityLevel.#{@config['api_compatibility_level']}"
+      end
 
       player_settings_opts_string = player_settings_opts.map{|k,v| "PlayerSettings.#{k} = #{v};"}.join("\n")
 
