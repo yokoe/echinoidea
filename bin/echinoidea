@@ -17,3 +17,5 @@ if !Echinoidea::editor_directory_exists?(current_dir)
   Echinoidea::create_editor_directory(current_dir)
 end
 
+builder = Echinoidea::Builder.new
+p builder

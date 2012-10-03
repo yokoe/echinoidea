@@ -1,3 +1,4 @@
+require "echinoidea/builder"
 require "echinoidea/version"
 
 module Echinoidea
