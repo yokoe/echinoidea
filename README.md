@@ -15,6 +15,7 @@ Create `echinoidea.yml` in root directory of your unity project.
 ```
 scenes:
   - Assets/Scenes/Foo.unity
+  - Assets/Scenes/Bar.unity
 ```
 
 Learn more about configuration? see here: https://github.com/yokoe/echinoidea/wiki/Configuration
