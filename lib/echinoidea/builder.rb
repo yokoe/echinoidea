@@ -44,12 +44,13 @@ using UnityEditor;
 using System.Collections;
 public class #{@class_name}
 {
-  private static string[] scene = {#{scenes}};
   public static void Build()
   {
     #{player_settings_opts_string}
     BuildOptions opt = BuildOptions.SymlinkLibraries;
-    /*string errorMsg = */BuildPipeline.BuildPlayer(scene, \"#{@output_directory}\", BuildTarget.iPhone,opt);
+
+    string[] scenes = {#{scenes}};
+    BuildPipeline.BuildPlayer(scenes, \"#{@output_directory}\", BuildTarget.iPhone, opt);
     EditorApplication.Exit(0);
   }
 }"
