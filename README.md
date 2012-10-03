@@ -15,10 +15,9 @@ Create `echinoidea.yml` in root directory of your unity project.
 ```
 scenes:
   - Assets/Scenes/Foo.unity
-bundle_identifier: com.example.foo #optional
-stripping_level: UseMicroMSCorlib #optional
-api_compatibility_level: NET_2_0_Subset #optional
 ```
+
+Learn more about configuration? see here: https://github.com/yokoe/echinoidea/wiki/Configuration
 
 Then run `echinoidea`.
 
