@@ -3,6 +3,17 @@
 
 require 'yaml'
 require "echinoidea"
+require 'optparse'
+opt = OptionParser.new
+
+OPTS = {}
+opt.on('-o VAL') {|v| OPTS[:o] = v }
+opt.parse!(ARGV)
+
+if OPTS[:o] == nil || OPTS[:o] == ""
+  STDERR.puts "Specify output directory with option -o. echinoidea -o output_directory"
+  exit
+end
 
 current_dir = Dir::pwd
 
@@ -25,6 +36,6 @@ config = YAML.load_file([current_dir, "echinoidea.yml"].join("/"))
 
 builder = Echinoidea::Builder.new(current_dir)
 builder.scenes = config['scenes']
-builder.output_directory = "ios"
+builder.output_directory = OPTS[:o]
 
 builder.run
