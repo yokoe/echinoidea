@@ -17,4 +17,8 @@ module Echinoidea
   def self.create_editor_directory(path)
   	Dir::mkdir(self.editor_directory_path(path))
   end
+
+  def self.config_exists?(path)
+  	File.exists?([path, "echinoidea.yml"].join("/"))
+  end
 end

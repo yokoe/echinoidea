@@ -2,6 +2,7 @@ require 'echinoidea/version'
 
 class Echinoidea::Builder
   attr_reader :class_name, :file_path
+  attr_accessor :scenes
 
   def self.unique_builder_class_name
   	"ECBuilder#{Time.now.strftime('%y%m%d%H%M%S')}"
@@ -18,7 +19,20 @@ class Echinoidea::Builder
 
   def write_to_file
     File.open(self.file_path,'w'){|f|
-     f.write "Hello Builder"
+      scenes = @scenes.map{|scene| "\"#{scene}\""}.join(",")
+      f.write "using UnityEngine;
+using UnityEditor;
+using System.Collections;
+public class #{@class_name}
+{
+  private static string[] scene = {#{scenes}};
+  public static void Build()
+  {
+    BuildOptions opt = BuildOptions.SymlinkLibraries;
+    /*string errorMsg = */BuildPipeline.BuildPlayer(scene, \"xcode\", BuildTarget.iPhone,opt);
+    EditorApplication.Exit(0);
+  }
+}"
     }
   end
   def remove_file

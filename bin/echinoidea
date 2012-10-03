@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 
-puts "Echinoidea"
-
+require 'yaml'
 require "echinoidea"
 
 current_dir = Dir::pwd
@@ -11,13 +10,21 @@ if !Echinoidea::project_root_directory?(current_dir)
   STDERR.puts "#{Dir::pwd} is not root directory of a unity project."
   exit
 end
+if !Echinoidea::config_exists?(current_dir)
+  STDERR.puts "No echinoidea.yml exists in #{Dir::pwd}"
+  exit
+end
 
 if !Echinoidea::editor_directory_exists?(current_dir)
   puts "No Editor directory. Create Editor directory."
   Echinoidea::create_editor_directory(current_dir)
 end
 
+# load config
+config = YAML.load_file([current_dir, "echinoidea.yml"].join("/"))
+
 builder = Echinoidea::Builder.new(current_dir)
+builder.scenes = config['scenes']
 
 builder.write_to_file
 
