@@ -37,6 +37,7 @@ public class #{@class_name}
   end
   def remove_file
     File.delete(self.file_path)
+    File.delete("#{self.file_path}.meta")
   end
 
   def run_unity_command
