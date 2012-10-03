@@ -18,6 +18,12 @@ scenes:
 bundle_identifier: com.example.foo #optional
 ```
 
+Then run `echinoidea`.
+
+```
+echinoidea -o [OUTPUT_DIRECTORY]
+```
+
 ## Contributing
 
 1. Fork it
