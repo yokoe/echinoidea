@@ -5,7 +5,15 @@ puts "Echinoidea"
 
 require "echinoidea"
 
-if !Echinoidea::project_root_directory?(Dir::pwd)
+current_dir = Dir::pwd
+
+if !Echinoidea::project_root_directory?(current_dir)
   STDERR.puts "#{Dir::pwd} is not root directory of a unity project."
   exit
 end
+
+if !Echinoidea::editor_directory_exists?(current_dir)
+  puts "No Editor directory. Create Editor directory."
+  Echinoidea::create_editor_directory(current_dir)
+end
+
