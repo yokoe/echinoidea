@@ -19,11 +19,11 @@ current_dir = Dir::pwd
 
 if !Echinoidea::project_root_directory?(current_dir)
   STDERR.puts "#{Dir::pwd} is not root directory of a unity project."
-  exit
+  exit false
 end
 if !Echinoidea::config_exists?(current_dir)
   STDERR.puts "No echinoidea.yml exists in #{Dir::pwd}"
-  exit
+  exit false
 end
 
 if !Echinoidea::editor_directory_exists?(current_dir)

@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.version       = Echinoidea::VERSION
   gem.authors       = ["Sota Yokoe"]
   gem.email         = ["gem@kreuz45.com"]
-  gem.description   = "A command line unity project build helper"
+  gem.description   = "echinoidea is a command line unity project build helper."
   gem.summary       = "A command line unity project build helper"
   gem.homepage      = "https://github.com/yokoe/echinoidea"
 
