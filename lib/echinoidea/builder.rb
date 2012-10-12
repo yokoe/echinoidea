@@ -2,7 +2,7 @@ require 'echinoidea/version'
 
 class Echinoidea::Builder
   attr_reader :class_name, :config, :file_path
-  attr_accessor :output_directory, :scenes
+  attr_accessor :build_target, :output_directory, :scenes
 
   def self.unique_builder_class_name
   	"ECBuilder#{Time.now.strftime('%y%m%d%H%M%S')}"
@@ -12,6 +12,7 @@ class Echinoidea::Builder
     @class_name = self.class.unique_builder_class_name
     @root_directory = root_directory
     @config = config
+    @build_target = "iPhone" # Default build target
   end
 
   def file_path
@@ -50,7 +51,7 @@ public class #{@class_name}
     BuildOptions opt = BuildOptions.SymlinkLibraries;
 
     string[] scenes = {#{scenes}};
-    BuildPipeline.BuildPlayer(scenes, \"#{@output_directory}\", BuildTarget.iPhone, opt);
+    BuildPipeline.BuildPlayer(scenes, \"#{@output_directory}\", BuildTarget.#{@build_target}, opt);
     EditorApplication.Exit(0);
   }
 }"

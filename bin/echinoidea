@@ -8,6 +8,7 @@ opt = OptionParser.new
 
 OPTS = {}
 opt.on('-o VAL') {|v| OPTS[:o] = v }
+opt.on('-t VAL') {|v| OPTS[:t] = v }
 opt.parse!(ARGV)
 
 if OPTS[:o] == nil || OPTS[:o] == ""
@@ -36,5 +37,6 @@ config = YAML.load_file([current_dir, "echinoidea.yml"].join("/"))
 
 builder = Echinoidea::Builder.new(current_dir, config)
 builder.output_directory = OPTS[:o]
+builder.build_target = OPTS[:t] if OPTS[:t]
 
 builder.run
