@@ -26,6 +26,12 @@ Then run `echinoidea`.
 echinoidea -o [OUTPUT_DIRECTORY]
 ```
 
+`-t Android` for Android project
+
+```
+echinoidea -o [OUTPUT_DIRECTORY] -t Android
+```
+
 ## Contributing
 
 1. Fork it
