@@ -41,6 +41,8 @@ class Echinoidea::Builder
 
       player_settings_opts_string = player_settings_opts.map{|k,v| "PlayerSettings.#{k} = #{v};"}.join("\n")
 
+      build_opts = @build_target == "iPhone" ? "SymlinkLibraries" : "None"
+
       f.write "using UnityEngine;
 using UnityEditor;
 using System.Collections;
@@ -49,7 +51,7 @@ public class #{@class_name}
   public static void Build()
   {
     #{player_settings_opts_string}
-    BuildOptions opt = BuildOptions.SymlinkLibraries;
+    BuildOptions opt = BuildOptions.#{build_opts};
 
     string[] scenes = {#{scenes}};
     BuildPipeline.BuildPlayer(scenes, \"#{@output_directory}\", BuildTarget.#{@build_target}, opt);
