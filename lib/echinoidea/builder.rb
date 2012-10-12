@@ -2,7 +2,7 @@ require 'echinoidea/version'
 
 class Echinoidea::Builder
   attr_reader :class_name, :config, :file_path
-  attr_accessor :build_target, :output_directory, :scenes
+  attr_accessor :build_target, :debug_mode, :output_directory, :scenes
 
   def self.unique_builder_class_name
   	"ECBuilder#{Time.now.strftime('%y%m%d%H%M%S')}"
@@ -13,6 +13,7 @@ class Echinoidea::Builder
     @root_directory = root_directory
     @config = config
     @build_target = "iPhone" # Default build target
+    @debug_mode = false
   end
 
   def file_path
@@ -63,7 +64,8 @@ public class #{@class_name}
   end
 
   def run_unity_command
-    `/Applications/Unity/Unity.app/Contents/MacOS/Unity -quit -batchMode -executeMethod #{@class_name}.Build -projectPath #{@root_directory}`
+    opts = debug_mode ? "" : "-quit -batchMode"
+    `/Applications/Unity/Unity.app/Contents/MacOS/Unity #{opts} -executeMethod #{@class_name}.Build -projectPath #{@root_directory}`
   end
 
   def run
