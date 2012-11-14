@@ -8,6 +8,7 @@ opt = OptionParser.new
 
 OPTS = {}
 opt.on('-d') {|v| OPTS[:d] = v}
+opt.on('-l') {|v| OPTS[:l] = v}
 opt.on('-o VAL') {|v| OPTS[:o] = v }
 opt.on('-t VAL') {|v| OPTS[:t] = v }
 opt.parse!(ARGV)
@@ -15,6 +16,10 @@ opt.parse!(ARGV)
 if OPTS[:o] == nil || OPTS[:o] == ""
   STDERR.puts "Specify output directory with option -o. echinoidea -o output_directory"
   exit
+end
+
+if OPTS[:l]
+  puts "Options: " + OPTS.to_s
 end
 
 current_dir = Dir::pwd
@@ -36,7 +41,7 @@ end
 # load config
 config = YAML.load_file([current_dir, "echinoidea.yml"].join("/"))
 
-builder = Echinoidea::Builder.new(current_dir, config)
+builder = Echinoidea::Builder.new(current_dir, config, OPTS[:l])
 builder.output_directory = OPTS[:o]
 builder.build_target = OPTS[:t] if OPTS[:t]
 builder.debug_mode = true if OPTS[:d]

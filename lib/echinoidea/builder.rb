@@ -2,25 +2,35 @@ require 'echinoidea/version'
 
 class Echinoidea::Builder
   attr_reader :class_name, :config, :file_path
-  attr_accessor :build_target, :debug_mode, :output_directory, :scenes
+  attr_accessor :build_target, :debug_mode, :loggings_enabled, :output_directory, :scenes
+
+  def log(message)
+    puts message if @loggings_enabled
+  end
 
   def self.unique_builder_class_name
   	"ECBuilder#{Time.now.strftime('%y%m%d%H%M%S')}"
   end
 
-  def initialize(root_directory, config)
+  def initialize(root_directory, config, loggings_enabled = false)
     @class_name = self.class.unique_builder_class_name
     @root_directory = root_directory
     @config = config
     @build_target = "iPhone" # Default build target
     @debug_mode = false
+    @loggings_enabled = true if loggings_enabled == true
+
+    log "Initializing builder"
+    log "  root_directory: #{root_directory}"
+    log "  config: #{config}"
   end
 
   def file_path
-    [@root_directory, "Assets", "Editor", "#{@class_name}.cs"].join("/")
+    [@root_directory, "Assets", "Editor", "#{@class_name}.cs"].join("/").gsub(" ", " ")
   end
 
   def write_to_file
+    log "Write a batch build script to: #{self.file_path}"
     # Thanks to: http://ameblo.jp/principia-ca/entry-11010391965.html
     File.open(self.file_path,'w'){|f|
       scenes = @config['scenes'].map{|scene| "\"#{scene}\""}.join(",")
@@ -43,6 +53,12 @@ class Echinoidea::Builder
 
       build_opts = @build_target == "iPhone" ? "SymlinkLibraries" : "None"
 
+      log "  class_name: #{@class_name}"
+      log "  build_opts: #{build_opts}"
+      log "  scenes: #{scenes}"
+      log "  output_directory: #{output_directory}"
+      log "  build_target: #{@build_target}"
+
       f.write "using UnityEngine;
 using UnityEditor;
 using System.Collections;
@@ -62,12 +78,20 @@ public class #{@class_name}
   end
   def remove_files
     File.delete(self.file_path)
-    File.delete("#{self.file_path}.meta")
+    begin
+      File.delete("#{self.file_path}.meta")
+    rescue
+      puts "Failed to delete meta file. #{self.file_path}.meta"
+    end
   end
 
   def run_unity_command
     opts = debug_mode ? "" : "-quit -batchMode"
-    `/Applications/Unity/Unity.app/Contents/MacOS/Unity #{opts} -executeMethod #{@class_name}.Build -projectPath #{@root_directory}`
+    project_path = @root_directory.gsub(" ", "\\ ")
+    command = "/Applications/Unity/Unity.app/Contents/MacOS/Unity #{opts} -executeMethod #{@class_name}.Build -projectPath #{project_path}"
+    log "Running unity.app..."
+    log "  #{command}"
+    `#{command}`
   end
 
   def run

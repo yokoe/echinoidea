@@ -32,6 +32,12 @@ echinoidea -o [OUTPUT_DIRECTORY]
 echinoidea -o [OUTPUT_DIRECTORY] -t Android
 ```
 
+To enable loggings, use `-l` option
+
+```
+echinoidea -o [OUTPUT_DIRECTORY] -l
+```
+
 ## Contributing
 
 1. Fork it
