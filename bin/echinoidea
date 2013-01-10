@@ -11,6 +11,7 @@ opt.on('-d') {|v| OPTS[:d] = v}
 opt.on('-l') {|v| OPTS[:l] = v}
 opt.on('-o VAL') {|v| OPTS[:o] = v }
 opt.on('-t VAL') {|v| OPTS[:t] = v }
+opt.on('--development-mode') {|v| OPTS[:development_mode] = v}
 opt.parse!(ARGV)
 
 if OPTS[:o] == nil || OPTS[:o] == ""
@@ -44,6 +45,7 @@ config = YAML.load_file([current_dir, "echinoidea.yml"].join("/"))
 builder = Echinoidea::Builder.new(current_dir, config, OPTS[:l])
 builder.output_directory = OPTS[:o]
 builder.build_target = OPTS[:t] if OPTS[:t]
+builder.development_mode = OPTS[:development_mode] if OPTS[:development_mode]
 builder.debug_mode = true if OPTS[:d]
 
 builder.run

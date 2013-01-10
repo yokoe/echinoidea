@@ -2,7 +2,7 @@ require 'echinoidea/version'
 
 class Echinoidea::Builder
   attr_reader :class_name, :config, :file_path
-  attr_accessor :build_target, :debug_mode, :loggings_enabled, :output_directory, :scenes
+  attr_accessor :build_target, :debug_mode, :development_mode, :loggings_enabled, :output_directory, :scenes
 
   def log(message)
     puts message if @loggings_enabled
@@ -19,6 +19,7 @@ class Echinoidea::Builder
     @build_target = "iPhone" # Default build target
     @debug_mode = false
     @loggings_enabled = true if loggings_enabled == true
+    @development_mode = false
 
     log "Initializing builder"
     log "  root_directory: #{root_directory}"
@@ -51,7 +52,8 @@ class Echinoidea::Builder
 
       player_settings_opts_string = player_settings_opts.map{|k,v| "PlayerSettings.#{k} = #{v};"}.join("\n")
 
-      build_opts = @build_target == "iPhone" ? "SymlinkLibraries" : "None"
+      build_opts = @build_target == "iPhone" ? "BuildOptions.SymlinkLibraries" : "BuildOptions.None"
+      build_opts = "BuildOptions.SymlinkLibraries & BuildOptions.Development & BuildOptions.AllowDebugging" if @development_mode == true
 
       log "  class_name: #{@class_name}"
       log "  build_opts: #{build_opts}"
@@ -67,7 +69,7 @@ public class #{@class_name}
   public static void Build()
   {
     #{player_settings_opts_string}
-    BuildOptions opt = BuildOptions.#{build_opts};
+    BuildOptions opt = #{build_opts};
 
     string[] scenes = {#{scenes}};
     BuildPipeline.BuildPlayer(scenes, \"#{@output_directory}\", BuildTarget.#{@build_target}, opt);
