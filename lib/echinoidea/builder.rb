@@ -53,7 +53,7 @@ class Echinoidea::Builder
       player_settings_opts_string = player_settings_opts.map{|k,v| "PlayerSettings.#{k} = #{v};"}.join("\n")
 
       build_opts = @build_target == "iPhone" ? "BuildOptions.SymlinkLibraries" : "BuildOptions.None"
-      build_opts = "BuildOptions.SymlinkLibraries & BuildOptions.Development & BuildOptions.AllowDebugging" if @development_mode == true
+      build_opts = "BuildOptions.SymlinkLibraries | BuildOptions.Development | BuildOptions.AllowDebugging" if @development_mode == true
 
       log "  class_name: #{@class_name}"
       log "  build_opts: #{build_opts}"
