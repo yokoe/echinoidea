@@ -12,13 +12,14 @@ class Echinoidea::Builder
   	"ECBuilder#{Time.now.strftime('%y%m%d%H%M%S')}"
   end
 
-  def initialize(root_directory, config, loggings_enabled = false)
+  def initialize(root_directory, config, loggings_enabled = false, unity_dir = nil)
     @class_name = self.class.unique_builder_class_name
     @root_directory = root_directory
     @config = config
     @build_target = "iPhone" # Default build target
     @debug_mode = false
     @loggings_enabled = true if loggings_enabled == true
+    @unity_dir = unity_dir or "/Applications/Unity/"
     @development_mode = false
 
     log "Initializing builder"
@@ -90,7 +91,7 @@ public class #{@class_name}
   def run_unity_command
     opts = debug_mode ? "" : "-quit -batchMode"
     project_path = @root_directory.gsub(" ", "\\ ")
-    command = "/Applications/Unity/Unity.app/Contents/MacOS/Unity #{opts} -executeMethod #{@class_name}.Build -projectPath #{project_path}"
+    command = "#{@unity_dir}Unity.app/Contents/MacOS/Unity #{opts} -executeMethod #{@class_name}.Build -projectPath #{project_path}"
     log "Running unity.app..."
     log "  #{command}"
     `#{command}`
