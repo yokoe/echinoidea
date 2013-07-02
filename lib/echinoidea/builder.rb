@@ -19,7 +19,7 @@ class Echinoidea::Builder
     @build_target = "iPhone" # Default build target
     @debug_mode = false
     @loggings_enabled = true if loggings_enabled == true
-    @unity_dir = unity_dir or "/Applications/Unity/"
+    @unity_dir = unity_dir || "/Applications/Unity/"
     @development_mode = false
 
     log "Initializing builder"
